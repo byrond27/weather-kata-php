@@ -23,41 +23,37 @@ class Forecast
         $client = new Client();
 
         // Find the id of the city on metawheather
-        $mycity = new Woeid();
+        $mycity = new City();
         $city = $mycity->getWoeid($client,$city);
         // Find the predictions for the city
         $results = $mycity->findPrediction($client,$city);
 
         foreach ($results as $result) {
             // When the date is the expected
-            if ($result["applicable_date"] == $datetime->format('Y-m-d')) {
-                // If we have to return the wind information
-                if ($wind) {
-                    return $result['wind_speed'];
-                } else {
-                    return $result['weather_state_name'];
-                }
+            if ($result["applicable_date"] == $datetime->format('Y-m-d') && $wind) {
+            // If we have to return the wind information
+                return $result['wind_speed'];
             }
+            return $result['weather_state_name'];
         }
     }
 }
-
-class Woeid {
-
+class City {
+  
     const URL = 'https://www.metaweather.com/api/location/';
+    const ARRAY_NUMBER = 0;
 
     public function getWoeid ($client, $city) {
-        
         $woeid = json_decode($client->get(SELF::URL.'search/?query='.$city)->getBody()->getContents(),
-        true)[0]['woeid'];
+        true)[SELF::ARRAY_NUMBER]['woeid'];
         return $woeid;
     }
 
     public function findPrediction($client,$woeid) {
-    // Find the predictions for the city
-    $results = json_decode($client->get(SELF::URL.$woeid)->getBody()->getContents(),
-    true)['consolidated_weather'];
-    return $results;
+        // Find the predictions for the city
+        $results = json_decode($client->get(SELF::URL.$woeid)->getBody()->getContents(),
+        true)['consolidated_weather'];
+        return $results;    
     }
 
 }
