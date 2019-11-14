@@ -2,7 +2,7 @@
 
 namespace Tests\Codium\CleanCode;
 
-use Codium\CleanCode\Forecast;
+use Codium\CleanCode\CityWeather;
 use PHPUnit\Framework\TestCase;
 
 class WeatherTest extends TestCase
@@ -11,10 +11,10 @@ class WeatherTest extends TestCase
     /** @test */
     public function find_the_weather_of_today()
     {
-        $forecast = new Forecast();
+        $cityWeather = new CityWeather();
         $city = "Madrid";
 
-        $prediction = $forecast->predict($city);
+        $prediction = $cityWeather->predict($city);
 
         echo "Today: $prediction\n";
         $this->assertTrue(true, 'I don\'t know how to test it');
@@ -23,10 +23,10 @@ class WeatherTest extends TestCase
     /** @test */
     public function find_the_weather_of_any_day()
     {
-        $forecast = new Forecast();
+        $cityWeather = new CityWeather();
         $city = "Madrid";
 
-        $prediction = $forecast->predict($city, new \DateTime('+2 days'));
+        $prediction = $cityWeather->predict($city, new \DateTime('+2 days'));
 
         echo "Day after tomorrow: $prediction\n";
         $this->assertTrue(true, 'I don\'t know how to test it');
@@ -35,10 +35,10 @@ class WeatherTest extends TestCase
     /** @test */
     public function find_the_wind_of_any_day()
     {
-        $forecast = new Forecast();
+        $cityWeather = new CityWeather();
         $city = "Madrid";
 
-        $prediction = $forecast->predict($city, null, true);
+        $prediction = $cityWeather->predict($city, null, true);
 
         echo "Wind: $prediction\n";
         $this->assertTrue(true, 'I don\'t know how to test it');
@@ -47,10 +47,10 @@ class WeatherTest extends TestCase
     /** @test */
     public function change_the_city_to_woeid()
     {
-        $forecast = new Forecast();
+        $cityWeather = new CityWeather();
         $city = "Madrid";
 
-        $forecast->predict($city, null, true);
+        $cityWeather->predict($city, null, true);
 
         $this->assertEquals("766273", $city);
     }
@@ -58,10 +58,10 @@ class WeatherTest extends TestCase
     /** @test */
     public function there_is_no_prediction_for_more_than_5_days()
     {
-        $forecast = new Forecast();
+        $cityWeather = new CityWeather();
         $city = "Madrid";
 
-        $prediction = $forecast->predict($city, new \DateTime('+6 days'));
+        $prediction = $cityWeather->predict($city, new \DateTime('+6 days'));
 
         $this->assertEquals("", $prediction);
     }
