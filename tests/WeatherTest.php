@@ -2,7 +2,7 @@
 
 namespace Tests\Codium\CleanCode;
 
-use Codium\CleanCode\Forecast;
+use Codium\CleanCode\GetPrediction;
 use PHPUnit\Framework\TestCase;
 
 class WeatherTest extends TestCase
@@ -58,10 +58,10 @@ class WeatherTest extends TestCase
     /** @test */
     public function there_is_no_prediction_for_more_than_5_days()
     {
-        $forecast = new Forecast();
+        $getPrediction = new GetPrediction();
         $city = "Madrid";
 
-        $prediction = $forecast->predict($city, new \DateTime('+6 days'));
+        $prediction = $getPrediction->predict($city, new \DateTime('+6 days'));
 
         $this->assertEquals("", $prediction);
     }
