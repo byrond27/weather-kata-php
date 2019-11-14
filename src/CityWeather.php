@@ -8,7 +8,7 @@ class CityWeather
     CONST EMPTY_STRING = "";
     CONST FORMAT_DATETIME = "Y-m-d";
     
-    public function predict(string &$city, \DateTime $datetime = null, bool $wind = false): string
+    public function predictionForCity(string &$city, \DateTime $datetime = null, bool $wind = false): string
     {
         // When date is not provided we look for the current prediction
         if (!$datetime) {
