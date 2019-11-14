@@ -19,22 +19,22 @@ class CityWeather
         if ($datetime >= new \DateTime(self::DATE_PREDICTION)) {
             return self::EMPTY_STRING;
         }
-        // Create a Guzzle Http Client
-
         // Find the id of the city on metawheather
         $newApiWeather = new ApiWeather();
         $mycity = new City($city,$newApiWeather);
-        $city = $mycity->id;
+        $city = $mycity->getId();
         // Find the predictions for the city
-        $results = $mycity->prediction;
+        return $this->getActualPrediction($mycity->getPredictions(),$datetime,$wind);
+    }
 
-        foreach ($results as $result) {
+    public function getActualPrediction($prections,$datetime,$wind){
+        foreach ($prections as $prediction) {
             // When the date is the expected
-            if ($result["applicable_date"] == $datetime->format(self::FORMAT_DATETIME) && $wind) {
+            if ($prediction["applicable_date"] == $datetime->format(self::FORMAT_DATETIME) && $wind) {
             // If we have to return the wind information
-                return $result['wind_speed'];
+                return $prediction['wind_speed'];
             }
-            return $result['weather_state_name'];
+            return $prediction['weather_state_name'];
         }
     }
 }
